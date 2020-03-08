@@ -19,4 +19,11 @@ defmodule AnalysisWeb.FallbackController do
     |> put_view(AnalysisWeb.ErrorView)
     |> render(:"404")
   end
+
+  def call(conn, {:auth, message}) do
+    conn
+    |> put_status(400)
+    |> put_view(AnalysisWeb.ErrorView)
+    |> render("error.json", %{errors: message})
+  end
 end
