@@ -11,5 +11,7 @@ defmodule AnalysisWeb.Router do
 
     post "/users/register", UserController, :create
     options "/users/register", UserController, :nothing
+    post "/users/login", UserController, :login
+    options "/users/login", UserController, :nothing
   end
 end

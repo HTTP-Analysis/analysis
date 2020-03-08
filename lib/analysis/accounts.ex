@@ -8,7 +8,22 @@ defmodule Analysis.Accounts do
     Repo.all(User)
   end
 
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user(%{"email" => email}) do
+    User
+    |> where(email: ^email)
+    |> Repo.one
+    |> case do
+      nil -> {:auth, %{email: "not found."}}
+      user -> user
+    end
+  end
+
+  def verify_pass(%{"password" => password}, user) do
+    case Bcrypt.verify_pass(password, user.password) do
+      true -> :ok
+      _ -> {:auth, %{password: "not correct."}}
+    end
+  end
 
   def create_user(attrs \\ %{}) do
     %User{}
