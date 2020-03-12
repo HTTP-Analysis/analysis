@@ -29,6 +29,7 @@ defmodule AnalysisWeb.UserController do
         |> Calendar.DateTime.advance!(60 * 60 * 24 * 2)
         extra_claims = %{
           "fullname" => user.fullname,
+          "id" => user.id,
           "email" => user.email,
           "exp" => exp |> DateTime.to_unix
         }
