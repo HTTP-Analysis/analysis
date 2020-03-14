@@ -63,4 +63,69 @@ defmodule Analysis.AccountsTest do
       assert %Ecto.Changeset{} = Accounts.change_user(user)
     end
   end
+
+  describe "requests" do
+    alias Analysis.Accounts.Request
+
+    @valid_attrs %{auth: %{}, method: "some method", params: %{}, url: "some url"}
+    @update_attrs %{auth: %{}, method: "some updated method", params: %{}, url: "some updated url"}
+    @invalid_attrs %{auth: nil, method: nil, params: nil, url: nil}
+
+    def request_fixture(attrs \\ %{}) do
+      {:ok, request} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Accounts.create_request()
+
+      request
+    end
+
+    test "list_requests/0 returns all requests" do
+      request = request_fixture()
+      assert Accounts.list_requests() == [request]
+    end
+
+    test "get_request!/1 returns the request with given id" do
+      request = request_fixture()
+      assert Accounts.get_request!(request.id) == request
+    end
+
+    test "create_request/1 with valid data creates a request" do
+      assert {:ok, %Request{} = request} = Accounts.create_request(@valid_attrs)
+      assert request.auth == %{}
+      assert request.method == "some method"
+      assert request.params == %{}
+      assert request.url == "some url"
+    end
+
+    test "create_request/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_request(@invalid_attrs)
+    end
+
+    test "update_request/2 with valid data updates the request" do
+      request = request_fixture()
+      assert {:ok, %Request{} = request} = Accounts.update_request(request, @update_attrs)
+      assert request.auth == %{}
+      assert request.method == "some updated method"
+      assert request.params == %{}
+      assert request.url == "some updated url"
+    end
+
+    test "update_request/2 with invalid data returns error changeset" do
+      request = request_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_request(request, @invalid_attrs)
+      assert request == Accounts.get_request!(request.id)
+    end
+
+    test "delete_request/1 deletes the request" do
+      request = request_fixture()
+      assert {:ok, %Request{}} = Accounts.delete_request(request)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_request!(request.id) end
+    end
+
+    test "change_request/1 returns a request changeset" do
+      request = request_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_request(request)
+    end
+  end
 end

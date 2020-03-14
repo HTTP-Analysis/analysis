@@ -5,6 +5,8 @@ defmodule Analysis.Accounts.User do
   @email_regex ~r/^(?!.*\.{2})[a-zA-Z0-9!.#$%&'*+"\/=?^_`{|}~-]+@[a-zA-Z\d\-]+(\.[a-zA-Z]+)*\.[a-zA-Z]+\z/
 
   schema "users" do
+    has_many :requests, Analysis.Accounts.Request, foreign_key: :user_id
+
     field :fullname, :string
     field :email, :string
     field :password, :string
