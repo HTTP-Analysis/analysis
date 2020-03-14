@@ -6,6 +6,10 @@ defmodule AnalysisWeb.Router do
     plug CORSPlug, origin: ["*"]
   end
 
+  pipeline :auth do
+    plug AnalysisWeb.AuthenticationPlug
+  end
+
   scope "/api", AnalysisWeb do
     pipe_through :api
 
@@ -13,5 +17,12 @@ defmodule AnalysisWeb.Router do
     options "/users/register", UserController, :nothing
     post "/users/login", UserController, :login
     options "/users/login", UserController, :nothing
+
+    scope "/" do
+      pipe_through :auth
+
+      get "/requests", RequestController, :index
+      options "/requests", RequestController, :nothing
+    end
   end
 end
