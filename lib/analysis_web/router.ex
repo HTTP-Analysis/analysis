@@ -23,6 +23,8 @@ defmodule AnalysisWeb.Router do
 
       get "/requests", RequestController, :index
       options "/requests", RequestController, :nothing
+      post "/requests", RequestController, :create
+      options "/requests", RequestController, :nothing
     end
   end
 end
