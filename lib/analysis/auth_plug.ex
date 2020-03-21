@@ -15,9 +15,9 @@ defmodule AnalysisWeb.AuthenticationPlug do
     |> handle_response(conn)
   end
 
-  defp handle_response(%User{} = user, email, conn), do: handle_response(user.email == email, conn)
-  defp handle_response(true, conn), do: conn
-  defp handle_response(false, conn), do: unauth(conn)
+  defp handle_response(%User{} = user, email, conn), do: handle_response(user.email == email, conn, user)
+  defp handle_response(true, conn, user), do: conn |> assign(:current_user, user)
+  defp handle_response(false, conn, _user), do: unauth(conn)
   defp handle_response(nil, conn), do: unauth(conn) 
   defp handle_response({:ok, %{"email" => email, "id" => user_id}}, conn), do: Accounts.user_by_id(user_id) |> handle_response(email, conn)
   defp handle_response({:error, _}, conn), do: unauth(conn)
