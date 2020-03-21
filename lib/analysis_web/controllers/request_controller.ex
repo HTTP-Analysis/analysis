@@ -15,7 +15,6 @@ defmodule AnalysisWeb.RequestController do
     with {:ok, %Request{} = request} <- Accounts.create_request(request_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.request_path(conn, :show, request))
       |> render("show.json", request: request)
     end
   end

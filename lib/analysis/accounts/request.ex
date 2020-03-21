@@ -6,6 +6,7 @@ defmodule Analysis.Accounts.Request do
     field :auth, :map
     field :method, :string
     field :params, :map
+    field :headers, :map
     field :url, :string
     field :user_id, :id
 
@@ -15,7 +16,7 @@ defmodule Analysis.Accounts.Request do
   @doc false
   def changeset(request, attrs) do
     request
-    |> cast(attrs, [:method, :url, :auth, :params])
-    |> validate_required([:method, :url, :auth, :params])
+    |> cast(attrs, [:method, :url, :auth, :params, :headers])
+    |> validate_required([:method, :url])
   end
 end
