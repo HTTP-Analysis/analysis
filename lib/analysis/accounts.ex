@@ -59,9 +59,13 @@ defmodule Analysis.Accounts do
 
   def get_request!(id), do: Repo.get!(Request, id)
 
+  defp process_list_to_map(list), do: list |> Enum.into(%{}, fn(obj) -> {obj["name"], obj["value"]} end)
+
   def create_request(attrs \\ %{}) do
+    headers = process_list_to_map(attrs["headers"])
+    params = process_list_to_map(attrs["params"])
     %Request{}
-    |> Request.changeset(attrs)
+    |> Request.changeset(attrs |> Map.put("headers", headers) |> Map.put("params", params))
     |> Repo.insert()
   end
 
