@@ -7,7 +7,8 @@ defmodule AnalysisWeb.RequestController do
   action_fallback AnalysisWeb.FallbackController
 
   def index(conn, _params) do
-    requests = Accounts.list_requests()
+    current_user = conn.assigns[:current_user]
+    requests = Accounts.list_requests_for_current_user(current_user)
     render(conn, "index.json", requests: requests)
   end
 

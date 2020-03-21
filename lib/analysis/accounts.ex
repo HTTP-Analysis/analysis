@@ -53,6 +53,12 @@ defmodule Analysis.Accounts do
 
   alias Analysis.Accounts.Request
 
+  def list_requests_for_current_user(user) do
+    Request
+    |> where(user_id: ^user.id)
+    |> Repo.all
+  end
+
   def list_requests do
     Repo.all(Request)
   end
