@@ -16,6 +16,7 @@ defmodule AnalysisWeb.RequestView do
       url: request.url,
       auth: request.auth,
       params: request.params,
-      headers: request.headers}
+      headers: request.headers,
+      title: request.title}
   end
 end
