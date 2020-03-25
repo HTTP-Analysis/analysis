@@ -11,12 +11,15 @@ defmodule AnalysisWeb.RequestView do
   end
 
   def render("request.json", %{request: request}) do
-    %{id: request.id,
+    %{
+      id: request.id,
       method: request.method,
       url: request.url,
       auth: request.auth,
       params: request.params,
       headers: request.headers,
-      title: request.title}
+      title: request.title,
+      created_at: request.inserted_at
+    }
   end
 end
